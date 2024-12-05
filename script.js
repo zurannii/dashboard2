@@ -1,65 +1,64 @@
-// Recupera dados da API do Back4App e exibe em um gráfico de pizza
+
 fetch('https://parseapi.back4app.com/parse/classes/DadosEscolares', {
     headers: {
-        'X-Parse-Application-Id': 'Tt6MdVmxrzFbGaZghaamPyARNAekoCRRyPtyNX5v', // ID da aplicação
-        'X-Parse-REST-API-Key': 'C15PqeztDAugVqSm1dOCSm8Lp4ZYfJh3lppbKObM'  // Chave da API
+        'X-Parse-Application-Id': 'Tt6MdVmxrzFbGaZghaamPyARNAekoCRRyPtyNX5v', 
+        'X-Parse-REST-API-Key': 'C15PqeztDAugVqSm1dOCSm8Lp4ZYfJh3lppbKObM'  
     }
 })
-.then(response => response.json())  // Converte a resposta para JSON
+.then(response => response.json()) 
 .then(data => {
-    const labels = [];  // Array para os labels do gráfico
-    const data_chart = [];  // Array para os dados do gráfico
+    const labels = [];  
+    const data_chart = [];  
 
-    console.log("Data from API:", data);  // Log dos dados recebidos
+    console.log("Data from API:", data);  
 
-    // Verifica se os resultados estão em 'data.results'
+   
     const resultados = data.results || data;
     for (let i = 0; i < resultados.length; i++) {
-        labels.push(resultados[i].ano_escolar);  // Adiciona o ano escolar ao array de labels
-        data_chart.push(parseInt(resultados[i].data_ano, 10));  // Adiciona o valor de data_ano ao array de dados
+        labels.push(resultados[i].ano_escolar);  
+        data_chart.push(parseInt(resultados[i].data_ano, 10));  
     }
 
-    console.log("Labels:", labels);  // Log dos labels
-    console.log("Data Chart:", data_chart);  // Log dos dados do gráfico
+    console.log("Labels:", labels); 
+    console.log("Data Chart:", data_chart);  
 
-    // Cria o gráfico de pizza com os dados recebidos
+   
     var ctx4 = document.getElementById("chart1").getContext("2d");
     var chart4 = new Chart(ctx4, {
-        type: "pie",  // Tipo de gráfico
+        type: "pie",  
         data: {
-            labels: labels,  // Labels do gráfico
+            labels: labels,  
             datasets: [{
                 label: "Gráfico de Rosca",
-                data: data_chart,  // Dados do gráfico
-                backgroundColor: ["#5056BF", "#65A6FA", "#6D74F2", "#9B57CC", "#00CADC"],  // Cores do gráfico
-                borderColor: "#FFFFFF",  // Cor da borda
-                borderWidth: 2  // Largura da borda
+                data: data_chart,  
+                backgroundColor: ["#6C48C5", "#E4B1F0", "#7E60BF", "#433878", "#AD49E1"],  
+                borderColor: "#FFFFFF",  
+                borderWidth: 2  
             }]
         }
     });
 })
 .catch(error => {
-    console.error('Erro:', error);  // Log de erro caso ocorra
+    console.error('Erro:', error);  
 });
 
-// Função para criar uma nova entrada no Back4App ao enviar o formulário de dados
-document.getElementById('dadosForm').addEventListener('submit', function(event) {
-    event.preventDefault();  // Previne o envio padrão do formulário
 
-    // Captura os valores dos inputs
+document.getElementById('dadosForm').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+    
     const anoEscolar = document.getElementById('ano_escolar').value;
     const dataAno = document.getElementById('data_ano').value;
 
-    // Cria um objeto com os dados capturados
+    
     const dados = {
         ano_escolar: anoEscolar,
         data_ano: dataAno
     };
 
-    // Função para adicionar novos dados ao Back4App
+   
     function adicionarDados(dados) {
         fetch('https://parseapi.back4app.com/parse/classes/DadosEscolares', {
-            method: 'POST',  // Método POST para adicionar dados
+            method: 'POST', 
             headers: {
                 'X-Parse-Application-Id': 'Tt6MdVmxrzFbGaZghaamPyARNAekoCRRyPtyNX5v', // ID da aplicação
                 'X-Parse-REST-API-Key': 'C15PqeztDAugVqSm1dOCSm8Lp4ZYfJh3lppbKObM',  // Chave da API
